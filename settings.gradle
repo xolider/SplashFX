@@ -9,6 +9,7 @@
 
 rootProject.name = 'SplashFX'
 include('lib')
+include('sample')
 rootProject.children.each {
     it.name = ('lib' == it.name ? 'SplashFX' : it.name)
 }

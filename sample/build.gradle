@@ -1,0 +1,27 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.30'
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+group 'ovh.vicart.splashfx'
+version '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation project(':SplashFX')
+}
+
+javafx {
+    version = "16"
+    modules = ["javafx.controls", "javafx.fxml", "javafx.swing"]
+}
+
+application {
+    mainClass = "ovh.vicart.splashfx.sample.MainKt"
+}

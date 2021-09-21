@@ -14,10 +14,12 @@ plugins {
     id 'java-library'
 
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'maven-publish'
+    id 'signing'
 }
 
 group 'ovh.vicart.splashfx'
-version '1.0.0'
+version '1.0.1'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -47,4 +49,50 @@ test {
 java {
     withSourcesJar()
     withJavadocJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            pom {
+                name = "SplashFX"
+                description = "JavaFX Helper for creating and displaying Splash screens"
+                url = "https://vicart.ovh/splshfx"
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = "xolider"
+                        name = "Clément Vicart"
+                        email = "clem.vicart@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/xolider/SplashFX.git"
+                    developerConnection = "scm:git:ssh://github.com/xolider/SplashFX.git"
+                    url = "https://github.com/xolider/SplashFX"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username project.ossrhUsername
+                password project.ossrhPassword
+            }
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            url = version.endsWith('SNAPSHOT') ? snapshotRepo : releaseRepo
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }

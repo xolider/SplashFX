@@ -13,15 +13,15 @@ import java.awt.Color
 import java.awt.Image
 import java.awt.image.BufferedImage
 
-class SplashFX {
+class SplashFX private constructor() {
 
     var background: WritableImage? = null
 
     private val stage = Stage(StageStyle.UNDECORATED)
 
-    private constructor(image: Image) {
+    private constructor(image: Image) : this() {
         val img: BufferedImage = if(image is BufferedImage) {
-            image as BufferedImage
+            image
         }
         else {
             val bfi = BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_ARGB)
@@ -34,24 +34,21 @@ class SplashFX {
         constructSceneWithBackground()
     }
 
-    private constructor() {
-        val bfi = BufferedImage(600, 400, BufferedImage.TYPE_INT_ARGB)
-        val graphics = bfi.createGraphics()
-        graphics.paint = Color(76, 31, 166)
-        graphics.fillRect(0, 0, bfi.width, bfi.height)
-        graphics.dispose()
-        background = SwingFXUtils.toFXImage(bfi, null)
-        constructSceneWithBackground()
+    private constructor(root: Parent) : this() {
+        constructStage(Scene(root))
     }
 
-    private constructor(root: Parent) {
-        constructStage(Scene(root))
+    private constructor(background: WritableImage) : this() {
+        this.background = background
+        constructSceneWithBackground()
     }
 
     private fun constructSceneWithBackground() {
         val anchor = AnchorPane()
         val image = ImageView(background)
         anchor.children.add(image)
+        anchor.prefWidth = background!!.width
+        anchor.prefHeight = background!!.height
         constructStage(Scene(anchor))
     }
 
@@ -70,7 +67,7 @@ class SplashFX {
     }
 
     companion object {
-        fun newSplashScreen() = SplashFX()
+        fun newSplashScreen(background: WritableImage) = SplashFX(background)
         fun newSplashScreen(background: Image) = SplashFX(background)
         fun newSplashScreen(background: BufferedImage) = SplashFX(background)
         fun newSplashScreen(root: Parent) = SplashFX(root)
