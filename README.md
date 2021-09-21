@@ -51,7 +51,7 @@ For using this project you will need at least Gradle and JavaFX plugin.
 
 javafx {
     version = '${javafx_version}'
-    modules = ['javafx.controls', 'javafx.swing']
+    modules = ['javafx.controls', 'javafx.swing', '...']
 }
 </code></pre>
 
@@ -68,7 +68,14 @@ SplashFX is available at Maven Central. You just need to add it to your dependen
 
 ## Usage
 
-You can find a sample in this project's files. Also, here are some examples to use this library:
+You can find a sample in this project's files. Also, here is an example of how to use:
+
+<pre><code>val bfi: BufferedImage = ...
+val splash = SplashFX.newSplashScreen(bfi)
+
+splash.show() //shows splash screen
+splash.dismiss() //closes the splash screen
+</code></pre>
 
 ## Contributing
 
